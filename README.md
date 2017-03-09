@@ -1,8 +1,14 @@
 # Restful-API-Demo
-基于nodejs的Restful API Demo
+a simple demo of RESTful CRUD by Nodejs 
 
+## How to start
+
+npm install
+
+npm start
 
 ## HTTP 动词
+
 操作 | SQL方法 | HTTP动词
 ----|------|----
 CREATE | INSERT  | POST
