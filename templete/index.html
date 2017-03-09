@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%=title%></title>
+        <script type="text/javascript" src="https://cdn.staticfile.org/zepto/1.0rc1/zepto.min.js"></script>
+    </head>
+<body>
+<section>
+    <table>
+        <tr>
+            <th width="50px">No</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Action</th>
+        </tr>         
+        <% if(data.length){             
+            for(var i = 0;i < data.length;i++) { %>
+                <tr>
+                    <td><%=(i+1)%></td>
+                    <td><%=data[i].name%></td>
+                    <td><%=data[i].age%></td>
+                    <td>
+                        <a href="javascript:void(0)" onClick="getData()">Get</a>
+                        <a href="javascript:void(0)" onClick="updateData('<%=data[i].name%>')">Edit</a>
+                        <a href="javascript:void(0)" onClick="deleteData('<%=data[i].name%>')">Delete</a>
+                    </td>
+                </tr>
+            <% }
+        }else{ %>
+            <tr>
+                <td>No Data</td>
+            </tr>
+        <% } %>                              
+    </table>
+</section>
+<section>
+    <form method="post" id="form">
+        <table>
+            <tr>
+                <td>Name</td><td>: <input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td class="label">Age</td><td>: <input type="text" name="age"></td>
+            </tr>
+            <tr>
+                <td class="label"></td>
+                <td>
+                    <input type="button" value="POST" onClick="submitData()">
+                </td>
+            </tr>
+        </table>
+    </form>
+</section>
+
+<script>
+    function submitData(){
+        $.ajax({
+            url:"/api/show",
+            type:"POST",
+            data:$("#form").serialize(),
+            success:function(res){
+                console.log(res);
+                window.location.reload();
+                return false;
+            },
+            error:function(xhr, status, error){
+                console.log(xhr.responseText);    
+                return false;
+            }
+        });
+    }
+    
+    function deleteData(name){
+        $.ajax({
+            url:"/api/show/"+name,
+            type: 'DELETE',
+            success: function(res) {
+                window.location.reload();
+                return false;
+            },
+            error:function(xhr, status, error){
+                console.log(xhr.responseText);
+                return false;
+            }
+        });
+    }
+    function getData(){
+        $.ajax({
+            url:"/api/get/",
+            type: 'GET',
+            success: function(res) {
+                console.log(res)
+                return false;
+            },
+            error:function(xhr, status, error){
+                console.log(xhr.responseText);
+                return false;
+            }
+        });
+    }
+
+    function updateData(name){
+        $.ajax({
+            url:"/api/show/"+name,
+            type: 'PUT',
+            success: function(res) {
+                window.location.reload();
+                return false;
+            },
+            error:function(xhr, status, error){
+                console.log(xhr.responseText);
+                return false;
+            }
+        });
+    }
+</script>
+</body>
+</html>
